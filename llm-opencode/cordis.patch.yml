@@ -1,0 +1,33 @@
+- insert:
+    - id: llm-opencode
+      name: dsh-llm-opencode
+      inject: [llm]
+      config:
+        autoDetect: true
+        disableDeepseekDefault: true
+        defaultModel: opencode/mimo-v2.5-free
+        models:
+          - id: opencode/mimo-v2.5-free
+            name: MiMo V2.5 (free)
+            contextWindow: 200000
+          - id: opencode/big-pickle
+            name: Big Pickle (free)
+            contextWindow: 200000
+          - id: opencode/hy3-free
+            name: Hy3 (free)
+            contextWindow: 190000
+          - id: opencode/nemotron-3-ultra-free
+            name: Nemotron 3 Ultra (free)
+            contextWindow: 131072
+          - id: opencode/nemotron-3.5-lightning-free
+            name: Nemotron 3.5 Lightning (free)
+            contextWindow: 131072
+          - id: opencode/muse-spark-1.2-contributor-free
+            name: Muse Spark 1.2 Contributor (free)
+            contextWindow: 200000
+          - id: opencode/laguna-s-2.1-free
+            name: Laguna S 2.1 (free)
+            contextWindow: 256000
+          - id: opencode/ling-3.0-flash-fin-free
+            name: Ling 3.0 Flash Fin (free)
+            contextWindow: 262000
