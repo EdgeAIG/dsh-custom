@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: dsh-remote
+    runtime: docker
+    dockerfilePath: ./deploy/Dockerfile
+    dockerContext: .
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: HOST
+        value: "0.0.0.0"
+      - key: PORT
+        value: "3080"
+      - key: DSH_HOME
+        value: "/data/dsh-home"
+    disk:
+      name: dsh-data
+      mountPath: /data
+      sizeGB: 5
