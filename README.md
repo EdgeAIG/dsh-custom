@@ -1,56 +1,53 @@
-# dsh-custom — remote-ready DeepSeek Harness
+# dsh-custom
 
-Run **dsh web** on Railway / Render / Fly.io / Cloudflare Tunnel with:
+Remote-ready [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) for Railway / Docker.
 
-| Package | Role |
-|---------|------|
-| **dsh-remote-trust** | Public / Cloudflare hosts get full settings (no auth — temporary) |
-| **dsh-llm-opencode** | OpenCode CLI free models; default **`opencode/mimo-v2.5-free`** |
-| **dsh-web-search** | `web_search` + `web_fetch` via **Exa MCP** (no API key) |
-| **dsh-subagent-defaults** | Sub-agents use OpenCode free, not official DeepSeek |
-| **dsh-config-ui** | In-browser config editor for remote hosts |
+**Docs (GitHub Pages):** https://edgeaig.github.io/dsh-custom/
 
----
+## Highlights
 
-## Deploy on Railway (one click)
+| Feature | Details |
+|---------|---------|
+| Remote trust | Public browser can load **Settings** / providers (Host rewrite + `isLoopback` force) |
+| Free models | `opencode-free` (Zen) + `empero-free` |
+| Web search | **Exa MCP** replaces **web-search-deepseek** / `deepseek-official` search |
+| Agent Rail | Plan map + trail (`agent_rail_*` tools) |
+| Telegram | Owner DM protocol + customer channel |
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template?template=https://github.com/EdgeAIG/dsh-custom)
+## Web search replacement
 
-Or: **https://railway.com/new/template?template=https://github.com/EdgeAIG/dsh-custom**
+Stock dsh includes `@deepseek-ai/dsh-web-search-deepseek` and `searchProvider: deepseek-official`.
 
-### After deploy
+This project:
 
-1. Railway assigns a public URL (`*.up.railway.app`).
-2. Open it — Web UI should load (remote-trust treats any Host as trusted).
-3. Optional volume: mount at `/data` so sessions survive restarts (`DSH_HOME=/data/dsh-home`).
-4. Optional env: `TRUSTED_HOST` = custom domain; `PORT` is set by Railway.
+1. Sets `DSH_WEB_SEARCH_PROVIDER=exa-mcp` and `DSH_WEB_FETCH_PROVIDER=exa-mcp`
+2. Patches the `web` cordis row to those providers
+3. Points DeepSeek search at `DSH_DISABLE_DEEPSEEK_WEB_SEARCH` (no key)
+4. Registers `dsh-web-search` (Exa MCP, no API key) and removes/disables `deepseek-official` at runtime
+5. Adds settings namespace **`web-search-exa`**
 
-### Manual Railway
+## Quick start (Railway)
 
 ```bash
-railway init
 railway up
 ```
 
-Dockerfile: root `Dockerfile`.
+Optional env:
 
----
-
-## Local install
-
-```bash
-./install.sh
-curl -fsSL https://opencode.ai/install | bash
-dsh web --host 0.0.0.0
+```
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_OWNER_CHAT_ID=
+TELEGRAM_CHANNEL_ID=
+TRUSTED_HOST=your.domain
 ```
 
-Default model: **`opencode/mimo-v2.5-free`**.
+## Local Docker
 
-## Other platforms
+```bash
+docker build -t dsh-custom .
+docker run --rm -p 8080:8080 -e PORT=8080 dsh-custom
+```
 
-- **Render:** `deploy/render.yaml`
-- **Fly.io:** `deploy/fly.toml` + volume `dsh_data` → `/data`
+## License
 
-## Security
-
-`remote-trust` has **no authentication**. Put Cloudflare Access / OAuth / platform auth in front for anything beyond a private experiment.
+MIT (plugins). Upstream dsh remains under its own license.

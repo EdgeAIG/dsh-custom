@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>dsh-custom — Remote DeepSeek Harness</title>
+  <style>
+    :root { --bg:#0b0f14; --card:#121821; --text:#e7eef7; --muted:#8b9bb4; --accent:#3ddc97; --line:#1e2a3a; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+    header { padding: 2.5rem 1.25rem 1rem; border-bottom:1px solid var(--line); background: linear-gradient(180deg,#0f1620,var(--bg)); }
+    main { max-width: 920px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+    h1 { margin:0 0 .5rem; font-size:1.75rem; letter-spacing:-0.02em; }
+    h2 { margin-top:2rem; font-size:1.2rem; color:var(--accent); }
+    p, li { color:var(--muted); }
+    a { color:#7dd3fc; }
+    .badge { display:inline-block; font-size:.75rem; padding:.2rem .5rem; border-radius:999px; background:#143d2e; color:var(--accent); border:1px solid #1f6b4f; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.15rem; margin:1rem 0; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.85rem; }
+    pre { background:#0a1018; border:1px solid var(--line); border-radius:10px; padding:1rem; overflow:auto; color:#d7e3f4; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { text-align:left; padding:.5rem .6rem; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { color:var(--text); font-size:.85rem; }
+    td { color:var(--muted); font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <main style="padding-bottom:0">
+      <span class="badge">dsh-custom</span>
+      <h1>Remote-ready DeepSeek Harness</h1>
+      <p>Cloud deployment of dsh with free models (OpenCode Zen + Empero), Exa MCP web search (replaces DeepSeek official search), remote trust for browser settings, Agent Rail, and Telegram.</p>
+      <p>
+        <a href="https://github.com/EdgeAIG/dsh-custom">GitHub repo</a> ·
+        <a href="https://alluring-acceptance-production-10a9.up.railway.app/">Live Railway demo</a>
+      </p>
+    </main>
+  </header>
+  <main>
+    <h2>What's included</h2>
+    <div class="card">
+      <table>
+        <tr><th>Plugin</th><th>Role</th></tr>
+        <tr><td><code>remote-trust</code></td><td>Bypasses loopback-only settings gates for public hosts</td></tr>
+        <tr><td><code>llm-opencode</code></td><td>OpenCode Zen free models</td></tr>
+        <tr><td><code>llm-empero</code></td><td>free.empero.org free models</td></tr>
+        <tr><td><code>web-search</code> (Exa MCP)</td><td><strong>Replaces</strong> <code>web-search-deepseek</code></td></tr>
+        <tr><td><code>agent-rail</code></td><td>AgentTrail-style plan map + event trail</td></tr>
+        <tr><td><code>telegram-adapter</code></td><td>Owner bot protocol + customer channel</td></tr>
+      </table>
+    </div>
+    <h2>Web search: DeepSeek off, Exa on</h2>
+    <p>Stock dsh ships <code>web-search-deepseek</code> and <code>searchProvider: deepseek-official</code>. This fork patches <code>web</code> to <code>exa-mcp</code>, disables DeepSeek search at runtime, and registers settings namespace <code>web-search-exa</code>.</p>
+    <pre>DSH_WEB_SEARCH_PROVIDER=exa-mcp
+DSH_WEB_FETCH_PROVIDER=exa-mcp</pre>
+    <h2>Railway</h2>
+    <pre>railway up</pre>
+    <h2>Telegram (optional)</h2>
+    <pre>TELEGRAM_BOT_TOKEN=
+TELEGRAM_OWNER_CHAT_ID=
+TELEGRAM_CHANNEL_ID=</pre>
+    <p>Commands: <code>/start</code> <code>/status</code> <code>/ask</code> <code>/plan</code> <code>/channel</code> <code>/ping</code></p>
+    <h2>Links</h2>
+    <ul>
+      <li><a href="https://github.com/EdgeAIG/dsh-custom">Source</a></li>
+      <li><a href="https://mcp.exa.ai/mcp">Exa MCP</a></li>
+    </ul>
+  </main>
+</body>
+</html>
