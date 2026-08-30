@@ -1,0 +1,6 @@
+- insert:
+    - id: web-search
+      name: dsh-web-search
+      inject: [web, systemPrompt]
+      config:
+        maxResults: 8
